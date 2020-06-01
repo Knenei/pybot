@@ -52,23 +52,6 @@ async def ping(ctx):
     await ctx.send(f'Pong!\n**Latency**: {round(client.latency*1000)}ms')
 
 
-# Embed Example
-#    embed = discord.Embed(
-#       title='Title',
-#       description='Description Text',
-#       colour=discord.Colour.blue()
-#   )
-#
-#   embed.set_footer(icon_url='Url', text='Footer Text')
-#   embed.set_image(url='Url')
-#   embed.set_thumbnail(url='Url')
-#   embed.set_author(name="Authors Name", icon_url='Url')
-#   embed.add_field(name='Field Name', value='Field Value', inline=True)
-#   embed.add_field(name='Field Name', value='Field Value', inline=True)
-#   embed.add_field(name='Field Name', value='Field Value', inline=True)
-#   await ctx.send(embed=embed)
-
-
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def clear(ctx, a: int, b=1000):
