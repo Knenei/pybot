@@ -159,7 +159,8 @@ async def unban_error(ctx, error):
         await ctx.send('Missing Required Arguments.\n**Example**\nC.unban <@716138613783527505>')
 
 
-@client.command(aliases=[''])
+@client.command(aliases=['addrole', 'AR', 'Ar', 'aR', 'Addrole'])
+@commands.has_permissions(manage_roles=True)
 async def add_role(ctx, user, *, role):
     await ctx.add_role(user, role)
     await ctx.send(f'Role added to user {user}')
@@ -173,14 +174,15 @@ async def add_role_error(ctx, error):
         await ctx.send('Missing required arguments.\n**Example**\nC.addrole <@716138613783527505> @(rolename)')
 
 
-@client.command()
+@client.command(aliases=['removerole', 'RR', 'Rr', 'rR', 'Removerole'])
+@commands.has_permissions(manage_roles=True)
 async def remove_role(ctx, user, *, role):
     await ctx.remove_role(user, role)
     await ctx.send(f'Role removed from {user}')
 
 
 @remove_role.error
-async def add_role_error(ctx, error):
+async def remove_role_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('You are missing the **Manage Roles** permission')
     elif isinstance(error, commands.MissingRequiredArgument):
