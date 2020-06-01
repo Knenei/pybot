@@ -52,23 +52,6 @@ async def ping(ctx):
     await ctx.send(f'Pong!\n**Latency**: {round(client.latency*1000)}ms')
 
 
-# Embed Example
-#    embed = discord.Embed(
-#       title='Title',
-#       description='Description Text',
-#       colour=discord.Colour.blue()
-#   )
-#
-#   embed.set_footer(icon_url='Url', text='Footer Text')
-#   embed.set_image(url='Url')
-#   embed.set_thumbnail(url='Url')
-#   embed.set_author(name="Authors Name", icon_url='Url')
-#   embed.add_field(name='Field Name', value='Field Value', inline=True)
-#   embed.add_field(name='Field Name', value='Field Value', inline=True)
-#   embed.add_field(name='Field Name', value='Field Value', inline=True)
-#   await ctx.send(embed=embed)
-
-
 @client.command()
 @commands.has_permissions(manage_messages=True)
 async def clear(ctx, a: int, b=1000):
@@ -169,16 +152,21 @@ async def ban_error(ctx, error):
 
 @client.command(aliases=['Help', 'HElp', 'HELp', 'HELP'])
 async def help(ctx):
+    author = ctx.message.author
     embed = discord.Embed(
-        title='Title',
-        description='Description Text',
+        title='Commands for the Bot',
+        description=f'Hello {author} here is the list of commands that the bot has!',
         colour=discord.Colour.blue()
         )
-    embed.set_thumbnail(url='Url')
-    embed.set_author(name="Authors Name", icon_url='Url')
-    embed.add_field(name='Field Name', value='Field Value', inline=True)
-    embed.add_field(name='Field Name', value='Field Value', inline=True)
-    embed.add_field(name='Field Name', value='Field Value', inline=True)
-    await ctx.send(embed=embed)
+    embed.set_footer(text='Bot made by some dumb kid.')
+    embed.add_field(name='Kick', value='Kicks the mentioned user.\n**Example:**\nC.kick @Knei#4714', inline=False)
+    embed.add_field(name='Ban', value='Bans the mentioned user.\n**Example**\nC.ban @Knei#4714', inline=True)
+    embed.add_field(name='Unban', value='Unbans the user specified\n**Example**\nC.unban Knei#4714', inline=True)
+    embed.add_field(name='Purge/Clear', value='Deletes a specified amount of messages.\n**Example**\nC.purge 10', inline=False)
+    embed.add_field(name='Ping', value='Checks the latency to the server.', inline=False)
+    embed.add_field(name='DisRules', value='Sends the rules of the server.(Discord)', inline=True)
+    embed.add_field(name='SerRules', value='Sends the rules of the server.(Server)', inline=True)
+    await ctx.send(f"Check Your Dm's {author}!")
+    await author.send(embed=embed)
 
 client.run(os.environ['TOKEN'])
