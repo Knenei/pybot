@@ -151,6 +151,18 @@ async def ban_error(ctx, error):
         await ctx.send('Missing Required Arguments')
 
 
+@client.command(aliases=['AR', 'Ar', 'aR'])
+async def addrole(ctx, user, *, role):
+    await ctx.add_role(user, role)
+    await ctx.send(f'Role added to user {user}')
+
+
+@client.command(aliases= 'RR', 'Rr', 'rr',)
+async def removerole(ctx, user, *, role):
+    await ctx.remove_role(user, role)
+    await ctx.send(f'Role removed from {user}')
+        
+        
 @client.command(aliases=['Help', 'HElp', 'HELp', 'HELP'])
 async def help(ctx):
     author = ctx.message.author
