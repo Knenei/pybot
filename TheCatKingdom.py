@@ -5,8 +5,7 @@ from itertools import cycle
 client = commands.Bot(command_prefix=['C.', 'c.'])
 client.remove_command('help')
 status = cycle(['Watching for commands...',
-                'C.help ',
-                'C.help',
+                'Server IP: ',
                 'Probably being coded',
                 'Updates soon...'])
 
@@ -18,7 +17,7 @@ async def on_ready():
     print('System is up and running.')
 
 
-@tasks.loop(seconds=30)
+@tasks.loop(seconds=10)
 async def change_status():
    await client.change_presence(activity=discord.Game(next(status)))
 
@@ -32,7 +31,7 @@ async def on_member_join(user):
         colour=discord.Colour.green()
     )
     embed.set_author(name=f'{user.name}#{user.discriminator}', icon_url=user.avatar_url)
-    channel = client.get_channel(716124863839993886)
+    channel = client.get_channel(709523289109823570)
     await channel.send(embed=embed)
 
 
@@ -44,13 +43,30 @@ async def on_member_remove(user):
         colour=discord.Colour.red()
     )
     embed.set_author(name=f'{user.name}#{user.discriminator}', icon_url=user.avatar_url)
-    channel = client.get_channel(716124863839993886)
+    channel = client.get_channel(709523289109823570)
     await channel.send(embed=embed)
 
 
 @client.command()
 async def ping(ctx):
     await ctx.send(f'Pong!\n**Latency**: {round(client.latency*1000)}ms')
+
+
+# Embed Example
+#    embed = discord.Embed(
+#       title='Title',
+#       description='Description Text',
+#       colour=discord.Colour.blue()
+#   )
+#
+#   embed.set_footer(icon_url='Url', text='Footer Text')
+#   embed.set_image(url='Url')
+#   embed.set_thumbnail(url='Url')
+#   embed.set_author(name="Authors Name", icon_url='Url')
+#   embed.add_field(name='Field Name', value='Field Value', inline=True)
+#   embed.add_field(name='Field Name', value='Field Value', inline=True)
+#   embed.add_field(name='Field Name', value='Field Value', inline=True)
+#   await ctx.send(embed=embed)
 
 
 @client.command()
@@ -65,10 +81,10 @@ async def clear(ctx, a: int, b=1000):
 
 @clear.error
 async def clear_error(ctx, error):
-   if isinstance(error, commands.MissingRequiredArgument):
-       await ctx.send('**Command**:\n`b.clear #`\n                  ^\n**Missing Value**')
-   elif isinstance(error, commands.MissingPermissions):
+   if isinstance(error, commands.MissingPermissions):
        await ctx.send('**Command**:\nMissing Manage Messages permission')
+   elif isinstance(error, commands.MissingRequiredArgument):
+       await ctx.send('**Command**:\n`b.clear #`\n                  ^\n**Missing Value**')
 
 
 @client.command()
@@ -83,13 +99,13 @@ async def purge(ctx, a: int, b=1000):
 
 @purge.error
 async def purge_error(ctx, error):
-   if isinstance(error, commands.MissingRequiredArgument):
-       await ctx.send('**Command**:\n`b.purge #`\n                  ^\n**Missing Value**')
-   elif isinstance(error, commands.MissingPermissions):
+   if isinstance(error, commands.MissingPermissions):
        await ctx.send('**Command**:\nMissing manage messages permission')
+   elif isinstance(error, commands.MissingRequiredArgument):
+       await ctx.send('**Command**:\n`b.purge #`\n                  ^\n**Missing Value**')
 
 
-@client.command(aliases=['Kick', 'KICK', 'KIck', 'KICk', 'k', 'K'])
+@client.command(aliases=['Kick', 'KICK', 'KIck', 'KICk'])
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
@@ -111,26 +127,35 @@ async def kick_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('You are missing the **Kick Members** permission')
     elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Missing Required Arguments')
+        await ctx.send('Missing Required Arguments.\n**Example**\nC.kick <@716138613783527505> (reason optional)')
 
 
-@client.command(aliases=['Ban', 'BAn', 'BAN', 'b', 'B'])
+@client.command(aliases=['Ban', 'BAn', 'BAN'])
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
    await member.ban(reason=reason)
    await ctx.channel.purge(limit=1)
-   await ctx.send(f'Banned {discord.Member}')
+   channel = client.get_channel(716124863839993886)
+   await channel.purge(limit=1)
+   await ctx.send(f'Banned {member} for {reason}\n{member.mention}')
+   embed = discord.Embed(
+       title=f"Banned {member.name}#{member.discriminar}",
+       description=f'Banned for {reason}',
+       colour=discord.Colour.red()
+   )
+   embed.set_author(name=f'{member.name}#{member.discriminator}', icon_url=member.avatar_url)
+   await channel.send(embed=embed)
 
 
 @ban.error
 async def ban_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('You are missing the **Ban Members** permission')
-    elif isinstance(error, commands.MissingPermissions):
-        await ctx.send('Missing Required Arguments')
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Missing Required Arguments.\n**Example**\nC.ban <@716138613783527505> (reason optional)')
 
 
-@client.command(aliases=['Unban', 'UNban', 'UNBan', 'UNBAn', 'UNBAN', 'ub', 'Ub', 'UB'])
+@client.command(aliases=['Unban', 'UNban', 'UNBan', 'UNBAn', 'UNBAN'])
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, *, member):
    banned_users = await ctx.guild.bans()
@@ -144,25 +169,41 @@ async def unban(ctx, *, member):
 
 
 @unban.error
-async def ban_error(ctx, error):
+async def unban_error(ctx, error):
     if isinstance(error, commands.MissingPermissions):
         await ctx.send('You are missing the **Ban Members** permission')
-    elif isinstance(error, commands.MissingPermissions):
-        await ctx.send('Missing Required Arguments')
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Missing Required Arguments.\n**Example**\nC.unban <@716138613783527505>')
 
 
-@client.command(aliases=['AR', 'Ar', 'aR'])
-async def addrole(ctx, user, *, role):
+@client.command(aliases=[''])
+async def add_role(ctx, user, *, role):
     await ctx.add_role(user, role)
     await ctx.send(f'Role added to user {user}')
 
 
-@client.command(aliases= 'RR', 'Rr', 'rr',)
-async def removerole(ctx, user, *, role):
+@add_role.error
+async def add_role_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('You are missing the **Manage Roles** permission')
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Missing required arguments.\n**Example**\nC.addrole <@716138613783527505> @(rolename)')
+
+
+@client.command()
+async def remove_role(ctx, user, *, role):
     await ctx.remove_role(user, role)
     await ctx.send(f'Role removed from {user}')
-        
-        
+
+
+@remove_role.error
+async def add_role_error(ctx, error):
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send('You are missing the **Manage Roles** permission')
+    elif isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send('Missing required arguments.\n**Example**\nC.removerole <@716138613783527505> @(rolename)')
+
+
 @client.command(aliases=['Help', 'HElp', 'HELp', 'HELP'])
 async def help(ctx):
     author = ctx.message.author
@@ -172,14 +213,17 @@ async def help(ctx):
         colour=discord.Colour.blue()
         )
     embed.set_footer(text='Bot made by some dumb kid.')
-    embed.add_field(name='Kick', value='Kicks the mentioned user.\n**Example:**\nC.kick @Knei#4714', inline=False)
-    embed.add_field(name='Ban', value='Bans the mentioned user.\n**Example**\nC.ban @Knei#4714', inline=True)
+    embed.add_field(name='Kick', value='Kicks the mentioned user.\n**Example:**\nC.kick <@716138613783527505>', inline=False)
+    embed.add_field(name='Ban', value='Bans the mentioned user.\n**Example**\nC.ban <@716138613783527505>', inline=True)
     embed.add_field(name='Unban', value='Unbans the user specified\n**Example**\nC.unban Knei#4714', inline=True)
     embed.add_field(name='Purge/Clear', value='Deletes a specified amount of messages.\n**Example**\nC.purge 10', inline=False)
+    embed.add_field(name='addrole', value='Adds the role from the mentioned user\n**Example**\nC.addrole <@716138613783527505> @(rolename)', inline=True)
+    embed.add_field(name='removerole', value='Removes the role from the mentioned user\n**Example**\nC.removerolerole <@716138613783527505> @(rolename)', inline=True)
     embed.add_field(name='Ping', value='Checks the latency to the server.', inline=False)
     embed.add_field(name='DisRules', value='Sends the rules of the server.(Discord)', inline=True)
     embed.add_field(name='SerRules', value='Sends the rules of the server.(Server)', inline=True)
     await ctx.send(f"Check Your Dm's {author}!")
     await author.send(embed=embed)
+
 
 client.run(os.environ['TOKEN'])
