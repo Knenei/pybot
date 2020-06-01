@@ -5,8 +5,8 @@ from itertools import cycle
 client = commands.Bot(command_prefix=['C.', 'c.'])
 client.remove_command('help')
 status = cycle(['Watching for commands...',
-                'Server IP: ',
-                'Server port: ',
+                'C.help ',
+                'C.help',
                 'Probably being coded',
                 'Updates soon...'])
 
