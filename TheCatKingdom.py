@@ -31,7 +31,7 @@ async def on_member_join(user):
         colour=discord.Colour.green()
     )
     embed.set_author(name=f'{user.name}#{user.discriminator}', icon_url=user.avatar_url)
-    channel = client.get_channel(709523289109823570)
+    channel = client.get_channel(716124863839993886)
     await channel.send(embed=embed)
 
 
@@ -43,7 +43,7 @@ async def on_member_remove(user):
         colour=discord.Colour.red()
     )
     embed.set_author(name=f'{user.name}#{user.discriminator}', icon_url=user.avatar_url)
-    channel = client.get_channel(709523289109823570)
+    channel = client.get_channel(716124863839993886)
     await channel.send(embed=embed)
 
 
@@ -93,7 +93,7 @@ async def purge_error(ctx, error):
 async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
     await ctx.channel.purge(limit=1)
-    channel = client.get_channel(709523289109823570)
+    channel = client.get_channel(716124863839993886)
     await channel.purge(limit=1)
     await ctx.send(f'Kicked {member} for {reason}\n{member.mention}')
     embed = discord.Embed(
