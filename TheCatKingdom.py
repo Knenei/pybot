@@ -189,7 +189,7 @@ async def remove_role_error(ctx, error):
         await ctx.send('Missing required arguments.\n**Example**\nC.removerole <@716138613783527505> @(rolename)')
 
 
-@client.command(aliases='Help', 'HElp', 'HELp', 'HELP'])
+@client.command(aliases=['Help', 'HElp', 'HELp', 'HELP'])
 async def help(ctx):
     author = ctx.message.author
     embed = discord.Embed(
