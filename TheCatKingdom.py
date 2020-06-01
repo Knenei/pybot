@@ -6,6 +6,7 @@ client = commands.Bot(command_prefix=['C.', 'c.'])
 client.remove_command('help')
 status = cycle(['Watching for commands...',
                 'Server IP: ',
+                'Server port: ',
                 'Probably being coded',
                 'Updates soon...'])
 
@@ -88,7 +89,7 @@ async def purge_error(ctx, error):
        await ctx.send('**Command**:\nMissing manage messages permission')
 
 
-@client.command(aliases=['Kick', 'KICK', 'KIck', 'KICk'])
+@client.command(aliases=['Kick', 'KICK', 'KIck', 'KICk', 'k', 'K'])
 @commands.has_permissions(kick_members=True)
 async def kick(ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)
@@ -113,7 +114,7 @@ async def kick_error(ctx, error):
         await ctx.send('Missing Required Arguments')
 
 
-@client.command(aliases=['Ban', 'BAn', 'BAN'])
+@client.command(aliases=['Ban', 'BAn', 'BAN', 'b', 'B'])
 @commands.has_permissions(ban_members=True)
 async def ban(ctx, member: discord.Member, *, reason=None):
    await member.ban(reason=reason)
@@ -129,7 +130,7 @@ async def ban_error(ctx, error):
         await ctx.send('Missing Required Arguments')
 
 
-@client.command(aliases=['Unban', 'UNban', 'UNBan', 'UNBAn', 'UNBAN'])
+@client.command(aliases=['Unban', 'UNban', 'UNBan', 'UNBAn', 'UNBAN', 'ub', 'Ub', 'UB'])
 @commands.has_permissions(ban_members=True)
 async def unban(ctx, *, member):
    banned_users = await ctx.guild.bans()
