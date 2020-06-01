@@ -1,13 +1,25 @@
 import discord
 import os
-from discord.ext import commands
+from discord.ext import commands, tasks
+from itertools import cycle
 client = commands.Bot(command_prefix=['C.', 'c.'])
 client.remove_command('help')
+status = cycle(['Watching for commands...',
+                'Server IP: ',
+                'Probably being coded',
+                'Updates soon...'])
 
 
 @client.event
 async def on_ready():
-   print('System is up and running.')
+    await client.change_presence(status=discord.Status.online, activity=discord.Game("Starting Up"))
+    change_status.start()
+    print('System is up and running.')
+
+
+@tasks.loop(seconds=30)
+async def change_status():
+   await client.change_presence(activity=discord.Game(next(status)))
 
 
 @client.event
