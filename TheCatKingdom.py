@@ -200,7 +200,7 @@ async def help(ctx):
     embed.set_footer(text='Bot made by some dumb kid.')
     embed.add_field(name='Kick', value='Kicks the mentioned user.\n**Example:**\nC.kick <@716138613783527505>', inline=False)
     embed.add_field(name='Ban', value='Bans the mentioned user.\n**Example**\nC.ban <@716138613783527505>', inline=True)
-    embed.add_field(name='Unban', value='Unbans the user specified\n**Example**\nC.unban Knei#4714', inline=True)
+    embed.add_field(name='Unban', value='Unbans the user specified\n**Example**\nC.unban TheCatKingdom#3761', inline=True)
     embed.add_field(name='Purge/Clear', value='Deletes a specified amount of messages.\n**Example**\nC.purge 10', inline=False)
     embed.add_field(name='addrole', value='Adds the role from the mentioned user\n**Example**\nC.addrole <@716138613783527505> @(rolename)', inline=True)
     embed.add_field(name='removerole', value='Removes the role from the mentioned user\n**Example**\nC.removerolerole <@716138613783527505> @(rolename)', inline=True)
