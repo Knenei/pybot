@@ -23,16 +23,18 @@ async def change_status():
 
 
 @client.event
-async def on_member_join(user):
+async def on_member_join(ctx, user):
     print(f'{user.name}#{user.discriminator} joined the server')
+    role = discord.utils.get(user.server.roles, name='Guest')
     embed = discord.Embed(
         title='Welcome to TheCatKingdom!',
         description=f'Hello {user}! Welcome to the Discord Server!',
         colour=discord.Colour.green()
     )
     embed.set_author(name=f'{user.name}#{user.discriminator}', icon_url=user.avatar_url)
-    channel = client.get_channel(716124863839993886)
+    channel = client.get_channel(709523289109823570)
     await channel.send(embed=embed)
+    await ctx.add_roles(role)
 
 
 @client.event
