@@ -159,36 +159,6 @@ async def unban_error(ctx, error):
         await ctx.send('Missing Required Arguments.\n**Example**\nC.unban <@716138613783527505>')
 
 
-@client.command(aliases=['addrole', 'AR', 'Ar', 'aR', 'Addrole', 'ar'])
-@commands.has_permissions(manage_roles=True)
-async def add_role(ctx, user, *, role):
-    await ctx.add_role(user, role)
-    await ctx.send(f'Role added to user {user}')
-
-
-@add_role.error
-async def add_role_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send('You are missing the **Manage Roles** permission')
-    elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Missing required arguments.\n**Example**\nC.addrole <@716138613783527505> @(rolename)')
-
-
-@client.command(aliases=['removerole', 'RR', 'Rr', 'rR', 'Removerole', 'rr'])
-@commands.has_permissions(manage_roles=True)
-async def remove_role(ctx, user, *, role):
-    await ctx.remove_role(user, role)
-    await ctx.send(f'Role removed from {user}')
-
-
-@remove_role.error
-async def remove_role_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-        await ctx.send('You are missing the **Manage Roles** permission')
-    elif isinstance(error, commands.MissingRequiredArgument):
-        await ctx.send('Missing required arguments.\n**Example**\nC.removerole <@716138613783527505> @(rolename)')
-
-
 @client.command(aliases=['Help', 'HElp', 'HELp', 'HELP'])
 async def help(ctx):
     author = ctx.message.author
@@ -202,11 +172,9 @@ async def help(ctx):
     embed.add_field(name='Ban', value='Bans the mentioned user.\n**Example**\nC.ban <@716138613783527505>', inline=True)
     embed.add_field(name='Unban', value='Unbans the user specified\n**Example**\nC.unban TheCatKingdom#3761', inline=True)
     embed.add_field(name='Purge/Clear', value='Deletes a specified amount of messages.\n**Example**\nC.purge 10', inline=False)
-    embed.add_field(name='addrole', value='Adds the role from the mentioned user\n**Example**\nC.addrole <@716138613783527505> @(rolename)', inline=True)
-    embed.add_field(name='removerole', value='Removes the role from the mentioned user\n**Example**\nC.removerolerole <@716138613783527505> @(rolename)', inline=True)
     embed.add_field(name='Ping', value='Checks the latency to the server.', inline=False)
-    embed.add_field(name='DisRules', value='Sends the rules of the server.(Discord)', inline=True)
-    embed.add_field(name='SerRules', value='Sends the rules of the server.(Server)', inline=True)
+    embed.add_field(name='DisRules(Comming soon...)', value='Sends the rules of the server.(Discord)', inline=True)
+    embed.add_field(name='SerRules(Comming soon...)', value='Sends the rules of the server.(Server)', inline=True)
     await ctx.send(f"Check Your Dm's {author}!")
     await author.send(embed=embed)
 
