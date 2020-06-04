@@ -6,7 +6,7 @@ client = commands.Bot(command_prefix=['C.', 'c.'])
 client.remove_command('help')
 status = cycle(['Watching for commands...',
                 'Server IP: thecatkingdom.vgmc.us',
-                'Server Port: 25578'
+                'Server Port: 25578',
                 'Probably being coded',
                 'Updates soon...'])
 
